@@ -3,5 +3,6 @@ Jeppesen Project
 Project members:
 
 Fredrik Beiron, 
-Simon Strandberg, 
-Fredrik Kjernald
+Fredrik Kjernald,
+Simon Strandberg
+
