@@ -3,8 +3,8 @@ Jeppesen Project
 
 Project members:
 
-Fredrik Beiron, 
 Fredrik Kjernald,
+Fredrik Beiron, 
 Simon Strandberg
 
 Test =====================
