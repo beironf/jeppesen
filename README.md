@@ -4,4 +4,5 @@ Project members:
 
 Fredrik Beiron, 
 Fredrik Kjernald,
-Simon Strandberg
+Simon Strandberg,
+Voldemort
