@@ -1,0 +1,36 @@
+# Install Jupyter Themes:
+conda install -c conda-forge jupyterthemes 
+
+# Set theme:    # google for more themes available
+jt -t grade3 	# simple 'grade3'
+jt -t monokai -fs 95 -altp -tfs 11 -nfs 115 -cellw 88% -T   # more complex settings of "monokai"
+
+
+
+# Install jupyter extensions manager:
+conda install -c conda-forge jupyter_contrib_nbextensions
+
+# Activate the "Hinterland" extension from the main file menu! (hints when typing)
+# ScrollDown är intressant, men funkar inte till 5.x än. (scrollar ner output automatiskt)
+
+
+
+# Run startup-code automatically for every notebook (create a script in the startup folder)
+# go to the hidden folder:
+cd ~/.ipython/profile_default/startup/
+# create the file:
+echo "# Output all variables (not only the last line)"$'\n'"from IPython.core.interactiveshell import InteractiveShell"$'\n'"InteractiveShell.ast_node_interactivity = 'all'"$'\n'""$'\n'"# import jtplot submodule from jupyterthemes"$'\n'"from jupyterthemes import jtplot"$'\n'""$'\n'"# currently installed theme will be used to"$'\n'"# set plot style if no arguments provided"$'\n'"jtplot.style()" > startup.ipy
+
+# ------ Above line creates the following file "startup.ipy":
+-------------------------------------------------------------
+# Output all variables (not only the last line)
+from IPython.core.interactiveshell import InteractiveShell
+InteractiveShell.ast_node_interactivity = 'all'
+
+# import jtplot submodule from jupyterthemes
+from jupyterthemes import jtplot
+
+# currently installed theme will be used to
+# set plot style if no arguments provided
+jtplot.style()
+-------------------------------------------------------------
