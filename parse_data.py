@@ -81,8 +81,8 @@ def getPoints(segments):
     for line in pointlines:
         points[pointType[line[0]]+" "+line[2:7].strip()] = {
             'area': line[19:23], 
-            'lat': line[34:40].strip(), 
-            'lon': line[41:48]
+            'lat': float(line[35:40])/1000, 
+            'lon': float(line[42:48])/1000
         }
     # create a dictionary with all points in China from our segments
     china_points = []
@@ -96,10 +96,10 @@ def getPoints(segments):
             del points[p]
     return points
 
-#----------------------------------------------#
-#      Create a list with all entry nodes      #
-#----------------------------------------------#
-def getRoutesForAllEntryNodes():
+#-------------------------------------------------------------------#
+#      Create a dictionary with all routes for each entry node      #
+#-------------------------------------------------------------------#
+def getRoutesForAllEntryNodes(allowed_routes):
     entry_nodes = []
     for route in allowed_routes:
         if not(route[0]['from'] in entry_nodes):
@@ -111,7 +111,6 @@ def getRoutesForAllEntryNodes():
         for route in allowed_routes:
             if route[0]['from'] == entry_node:
                 current_routes.append(route)
-
-        for route in current_routes:
-            for node in allowed_routes:
+        routes_for_entry_node[entry_node] = current_routes
+        
     return routes_for_entry_node
