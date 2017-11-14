@@ -13,6 +13,6 @@ for entry_node in entry_nodes:
         if route[0][0] == entry_node:
             #We are now looking at a route with 'node' as its starting node
             current_routes.append(route)
-    #Now current_routes contains several lists, each with a route from
+    #Now current_routes contains several lists, each with a route starting from
     #entry_node
 
