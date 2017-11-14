@@ -54,5 +54,12 @@ for i,ind in enumerate(index):
             seg = (node[9]+" "+node[8][0], node[13]+" "+node[12][0])
             allowed_routes[i].append(seg)
 
-print(allowed_routes)
+#print(allowed_routes[0][0][0])
 
+#Find set of all start nodes
+entry_nodes = []
+for route in allowed_routes:
+    if not(route[0][0] in entry_nodes):
+        entry_nodes.append(route[0][0])
+
+#print(entry_nodes)
