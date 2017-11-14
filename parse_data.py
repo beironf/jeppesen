@@ -96,18 +96,22 @@ def getPoints(segments):
             del points[p]
     return points
 
-def getEntryNodes():
+#----------------------------------------------#
+#      Create a list with all entry nodes      #
+#----------------------------------------------#
+def getRoutesForAllEntryNodes():
     entry_nodes = []
     for route in allowed_routes:
         if not(route[0]['from'] in entry_nodes):
             entry_nodes.append(route[0]['from'])
-        
+    
+    routes_for_entry_node = {}
     for entry_node in entry_nodes:
         current_routes = []
         for route in allowed_routes:
             if route[0]['from'] == entry_node:
                 current_routes.append(route)
-                
+
         for route in current_routes:
             for node in allowed_routes:
-    return entry_nodes
+    return routes_for_entry_node
