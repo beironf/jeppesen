@@ -27,9 +27,8 @@ def getForbiddenSegments(routes_by_entry_node, segments):
     
     return forbidden_segs
 
-def getForbiddenEntrySegments(routes_by_entry_node, segments):
+def getForbiddenEntrySegments(routes_by_entry_node, entry_nodes, segments):
 	forbidden_entry_segs = []
-	entry_nodes = routes_by_entry_node.keys()
 
 	for seg in segments:
     	fr = points[seg['from']]['area'][0]
