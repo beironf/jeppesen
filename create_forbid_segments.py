@@ -4,7 +4,7 @@
 #routes are possible to choose. 
 
 def getForbiddenSegments(routes_by_entry_node, segments):
-	forbidden_segs = {}
+    forbidden_segs = {}
 
     for entry_node in routes_by_entry_node:
         forbidden_tmp = []
@@ -27,15 +27,15 @@ def getForbiddenSegments(routes_by_entry_node, segments):
     
     return forbidden_segs
 
-def getForbiddenEntrySegments(routes_by_entry_node, segments):
-	forbidden_entry_segs = []
-	entry_nodes = routes_by_entry_node.keys()
+def getForbiddenEntrySegments(routes_by_entry_node, segments, points):
+    forbidden_entry_segs = []
+    entry_nodes = routes_by_entry_node.keys()
 
-	for seg in segments:
-    	fr = points[seg['from']]['area'][0]
-    	to = points[seg['to']]['area'][0]
-    	if (fr != 'Z' and to == 'Z'): # if seg is from another country to China
-        	if (seg['from'] not in entry_nodes) and (seg['to'] not in entry_nodes):
-            	forbidden_entry_segs.append(seg)
+    for seg in segments:
+        fr = points[seg['from']]['area'][0]
+        to = points[seg['to']]['area'][0]
+        if (fr != 'Z' and to == 'Z'): # if seg is from another country to China
+            if (seg['from'] not in entry_nodes) and (seg['to'] not in entry_nodes):
+                forbidden_entry_segs.append(seg)
 
-	return forbidden_entry_segs
+    return forbidden_entry_segs

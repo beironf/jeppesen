@@ -26,6 +26,11 @@ def readFile(path):
     with open(path,'r') as f:
         return f.read()
 
+def getOverflyRules():
+    sourcelines = readFileLines(srad_path)
+    return sourcelines[2:31]
+
+
 #------------------------------------------------#
 #      Create list of all segments in China      #
 #------------------------------------------------#
@@ -81,8 +86,8 @@ def getPoints(segments):
     for line in pointlines:
         points[pointType[line[0]]+" "+line[2:7].strip()] = {
             'area': line[19:23], 
-            'lat': float(line[35:40])/1000, 
-            'lon': float(line[42:48])/1000
+            'lat': str(float(line[35:40])/1000), 
+            'lon': str(float(line[42:48])/1000)
         }
     # create a dictionary with all points in China from our segments
     china_points = []
