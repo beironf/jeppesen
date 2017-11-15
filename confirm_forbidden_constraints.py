@@ -14,17 +14,14 @@ def getSegment(fr, to, segments):
 	return seg
 
 def find_path(seg, used_segs, points, entry_nodes):
-	node = seg['from']
-	while(true):
-		for to in possible_destinations[node]:
-			seg = getSegment(node, to, segments)
-			if isForbidden(seg, forbidden_segs, forbidden_entry_segs):
-				if (to in entry_nodes or points[to]['area'][0]!='Z'):
-					possible_routes.append([used_segs, seg])
-			else:
-				node = to
-				used_segs.append(seg)
-				find_path(seg, used_segs, points, entry_nodes)
+	node = seg['to']
+	for to in possible_destinations[node]:
+		seg = getSegment(node, to, segments)
+		if isForbidden(seg, forbidden_segs, forbidden_entry_segs):
+			if (to in entry_nodes or points[to]['area'][0]!='Z'):
+				possible_routes.append([used_segs, seg])
+		else:
+			find_path(seg, [used_segs, seg], points, entry_nodes)
 
 
 def getAllowedRoutes(forbidden_segs, forbidden_entry_segs, segments, points, possible_destinations, entry_nodes):
