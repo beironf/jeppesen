@@ -9,11 +9,11 @@ allowed_routes = parse_data.getAllowedRoutes()
 points = parse_data.getPoints(segments)
 routes_by_entry_node = parse_data.getRoutesForAllEntryNodes(allowed_routes)
 overflyRules = parse_data.getOverflyRules()
-
+entry_nodes = routes_by_entry_node.keys()
 
 # generate forbidden constraints
 forbidden_segs = create_forbid_segments.getForbiddenSegments(routes_by_entry_node, segments)
-forbidden_entry_segs = create_forbid_segments.getForbiddenEntrySegments(routes_by_entry_node, segments, points)
+forbidden_entry_segs = create_forbid_segments.getForbiddenEntrySegments(routes_by_entry_node, entry_nodes, segments, points)
 
 # generate .srad-file
 generate_srad.generateSRAD(overflyRules, forbidden_entry_segs, forbidden_segs, points)

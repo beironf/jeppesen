@@ -24,7 +24,7 @@ def generateSRAD(overflyRules, forbidden_entry_segs, forbidden_segs, points):
         srad.write("  ((Point N (FL 0) (FL 99000) "+entry_node +" "+points[entry_node]['lon']+" "+points[entry_node]['lat']+"))")
         
         current_segs = forbidden_segs[entry_node]
-        for seg in current_segs
+        for seg in current_segs:
             srad.write("  ")
 
     srad.write(")")
