@@ -25,7 +25,7 @@ generate_srad.generateSRAD(overflyRules, forbidden_entry_segs, forbidden_segs, p
 #print(possible_routes[0])
 #print(len(possible_routes))
 
-#tuples = [(seg['from'], seg['to']) for seg in segments]
-#print(len(tuples))
-#tuples = list(set(tuples))
-#print(len(tuples))
+tuples = [(seg['from'], seg['to']) for seg in segments]
+print(len(tuples))
+tuples = list(set(tuples))
+print(len(tuples))
