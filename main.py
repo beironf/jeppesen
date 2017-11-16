@@ -1,6 +1,7 @@
 import parse_data
 import create_forbid_segments
 import generate_srad
+from confirm_solution import ConfirmSolution
 
 # import variables
 segments = parse_data.getSegments()
@@ -17,3 +18,14 @@ forbidden_entry_segs = create_forbid_segments.getForbiddenEntrySegments(routes_b
 
 # generate .srad-file
 generate_srad.generateSRAD(overflyRules, forbidden_entry_segs, forbidden_segs, points)
+
+# confirm solution
+#cs = ConfirmSolution(forbidden_segs, forbidden_entry_segs, segments, points, entry_nodes, possible_destinations)
+#possible_routes = cs.getPossibleRoutes()
+#print(possible_routes[0])
+#print(len(possible_routes))
+
+#tuples = [(seg['from'], seg['to']) for seg in segments]
+#print(len(tuples))
+#tuples = list(set(tuples))
+#print(len(tuples))
