@@ -31,11 +31,10 @@ def getForbiddenSegments2(routes_by_entry_node, segments, allowed_routes):
     forbidden_segs = {}
 
     for entry_node in routes_by_entry_node:
-        forbidden_tmp = []
         current_routes = routes_by_entry_node[entry_node]
-        used_segs = []
 
         #Find all used segments
+        used_segs = []
         for route in current_routes:
             for seg in route:
                 if seg not in used_segs:
@@ -49,6 +48,7 @@ def getForbiddenSegments2(routes_by_entry_node, segments, allowed_routes):
                     possible_segs.append(possible_seg)
 
         #Find which segments to forbid
+        forbidden_tmp = []
         for seg in possible_segs:
             if (seg not in used_segs) and (seg not in forbidden_tmp):
                 forbidden_tmp.append(seg)
