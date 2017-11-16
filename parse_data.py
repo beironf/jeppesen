@@ -90,15 +90,15 @@ def getPoints(segments):
             'lon': str(float(line[42:48])/1000)
         }
     # create a dictionary with all points in China from our segments
-    china_points = []
-    for seg in segments:
-        china_points.extend([seg['from'],seg['to']])
-    china_points = list(set(china_points))
+    #china_points = []
+    #for seg in segments:
+    #    china_points.extend([seg['from'],seg['to']])
+    #china_points = list(set(china_points))
     # delete all points that are not in China
-    points_all = dict(points)
-    for p in points_all:
-        if p not in china_points:
-            del points[p]
+    #points_all = dict(points)
+    #for p in points_all:
+    #    if p not in china_points:
+    #        del points[p]
     return points
 
 #-------------------------------------------------------------------#
