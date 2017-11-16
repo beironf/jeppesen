@@ -14,18 +14,13 @@ entry_nodes = routes_by_entry_node.keys()
 
 # generate forbidden constraints
 forbidden_segs = create_forbid_segments.getForbiddenSegments(routes_by_entry_node, segments)
-forbidden_entry_segs = create_forbid_segments.getForbiddenEntrySegments(routes_by_entry_node, entry_nodes, segments, points)
+#forbidden_entry_segs = create_forbid_segments.getForbiddenEntrySegments(routes_by_entry_node, entry_nodes, segments, points)
 
 # generate .srad-file
 generate_srad.generateSRAD(overflyRules, forbidden_entry_segs, forbidden_segs, points)
 
 # confirm solution
-#cs = ConfirmSolution(forbidden_segs, forbidden_entry_segs, segments, points, entry_nodes, possible_destinations)
-#possible_routes = cs.getPossibleRoutes()
-#print(possible_routes[0])
-#print(len(possible_routes))
-
-#tuples = [(seg['from'], seg['to']) for seg in segments]
-#print(len(tuples))
-#tuples = list(set(tuples))
-#print(len(tuples))
+cs = ConfirmSolution(forbidden_segs, forbidden_entry_segs, segments, points, entry_nodes)
+possible_routes = cs.getPossibleRoutes()
+print(possible_routes[0])
+print(len(possible_routes))

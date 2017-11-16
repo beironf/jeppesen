@@ -1,12 +1,11 @@
 
 class ConfirmSolution(object):
-	def __init__(self, forbidden_segs, forbidden_entry_segs, segments, points, entry_nodes, possible_destinations):
+	def __init__(self, forbidden_segs, forbidden_entry_segs, segments, points, entry_nodes):
 		self.forbidden_segs = forbidden_segs
 		self.forbidden_entry_segs = forbidden_entry_segs
 		self.segments = segments
 		self.points = points
 		self.entry_nodes = entry_nodes
-		self.possible_destinations = possible_destinations
 		self.possible_routes = []
 
 	def isForbidden(self, seg, entry_seg):
@@ -22,14 +21,13 @@ class ConfirmSolution(object):
 			else:
 				return False
 
-	def getSegment(self, fr, to):
-		seg = [seg for seg in self.segments if (seg['from']==fr and seg['to']==to)][0]
-		return seg
+	def getSegments(self, fr):
+		segs = [seg for seg in self.segments if seg['from']==fr]
+		return segs
 
 	def find_path(self, seg, used_segs):
 		node = seg['to']
-		for to in self.possible_destinations[node]:
-			seg = self.getSegment(node, to)
+		for seg in self.getSegments(node):
 			if (to in self.entry_nodes or self.points[to]['area'][0]!='Z'):
 				used_segs.append(seg)
 				self.possible_routes.append(used_segs)
