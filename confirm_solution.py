@@ -16,10 +16,7 @@ class ConfirmSolution(object):
 			if seg in self.forbidden_segs[entry_seg['to']]:
 				return True
 		else:
-			if seg in self.forbidden_entry_segs:
-				return True
-			else:
-				return False
+			return False
 
 	def getSegments(self, fr):
 		segs = [seg for seg in self.segments if seg['from']==fr]
