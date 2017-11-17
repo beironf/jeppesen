@@ -119,3 +119,10 @@ def getRoutesForAllEntryNodes(allowed_routes):
         routes_for_entry_node[entry_node] = current_routes
         
     return routes_for_entry_node
+
+def getExitNodes(allowed_routes):
+    exit_nodes = []
+    for route in allowed_routes:
+        if not(route[len(route)]['to'] in exit_nodes):
+            exit_nodes.append(route[len(route)]['to'])
+            

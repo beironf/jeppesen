@@ -51,4 +51,3 @@ class ConfirmSolution(object):
                 self.find_path(start_seg, used_segs)
 
         return self.possible_routes
-
