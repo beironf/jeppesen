@@ -1,6 +1,7 @@
 
 class ConfirmSolution(object):
 	def __init__(self, forbidden_segs, forbidden_entry_segs, segments, points, entry_nodes, exit_nodes):
+
 		self.forbidden_segs = forbidden_segs
 		self.forbidden_entry_segs = forbidden_entry_segs
 		self.segments = segments
