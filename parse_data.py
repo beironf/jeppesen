@@ -84,21 +84,22 @@ def getPoints(segments):
     pointlines = readFileLines(point_path)
     points = {}
     for line in pointlines:
-        points[pointType[line[0]]+" "+line[2:7].strip()] = {
-            'area': line[19:23], 
-            'lat': str(float(line[35:40])/1000), 
-            'lon': str(float(line[42:48])/1000)
-        }
+        if not(pointType[line[0]]+" "+line[2:7].strip() in points.keys() and line[19] != 'Z'):
+            points[pointType[line[0]]+" "+line[2:7].strip()] = {
+                'area': line[19:23], 
+                'lat': str(float(line[35:40])/1000), 
+                'lon': str(float(line[42:48])/1000)
+            }
     # create a dictionary with all points in China from our segments
-    china_points = []
-    for seg in segments:
-        china_points.extend([seg['from'],seg['to']])
-    china_points = list(set(china_points))
+    #china_points = []
+    #for seg in segments:
+    #    china_points.extend([seg['from'],seg['to']])
+    #china_points = list(set(china_points))
     # delete all points that are not in China
-    points_all = dict(points)
-    for p in points_all:
-        if p not in china_points:
-            del points[p]
+    #points_all = dict(points)
+    #for p in points_all:
+    #    if p not in china_points:
+    #        del points[p]
     return points
 
 #-------------------------------------------------------------------#
@@ -119,3 +120,14 @@ def getRoutesForAllEntryNodes(allowed_routes):
         routes_for_entry_node[entry_node] = current_routes
         
     return routes_for_entry_node
+
+def getExitNodes(allowed_routes):
+    exit_nodes = []
+    for route in allowed_routes:
+        
+        if not(route[len(route)-1]['to'] in exit_nodes):
+            exit_nodes.append(route[len(route)-1]['to'])
+    return exit_nodes
+    
+
+            
