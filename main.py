@@ -2,6 +2,7 @@ import parse_data
 import create_forbid_segments
 import generate_srad
 from confirm_solution import ConfirmSolution
+import plot_routes
 import pprint
 
 pp = pprint.PrettyPrinter(indent = 4)
@@ -27,14 +28,9 @@ generate_srad.generateSRAD(overflyRules, [], forbidden_segs, points)
 # confirm solution
 cs = ConfirmSolution(forbidden_segs, [], segments, points, entry_nodes, exit_nodes)
 possible_routes = cs.getPossibleRoutes()
-pp.pprint(possible_routes[4])
-pp.pprint(len(possible_routes))
+#pp.pprint(possible_routes[4])
+#pp.pprint(len(possible_routes))
 
-
-#print('nbr of entry nodes: '+str(len(entry_nodes)))
-#print('nbr of exit nodes:  '+str(len(exit_nodes)))
-#entry_nodes.extend(exit_nodes)
-#entry_nodes = list(set(entry_nodes))
-#print(str(len(entry_nodes))+' unique entry/exit nodes out of 57 in total')
-#print('=> Not all nodes have entry and exit')
+# plot routes
+plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
 
