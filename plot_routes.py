@@ -86,11 +86,12 @@ def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes):
             for k in range(len(p_x[ind])):
                 axes1[i,j].plot(p_x[ind][k], p_y[ind][k], 'r-', linewidth=0.8)
             axes1[i,j].set_aspect('equal')
+            axes1[i,j].set_title(entry_nodes[ind])
 
     fig2, axes2 = plt.subplots(3, 4, sharex=True, sharey=True)
     for i in range(3):
         for j in range(4):
-            ind = 15+i*4+j
+            ind = 16+i*4+j
             axes2[i,j].scatter(china_lon, china_lat, c=(0.8,0.8,0.8), s=5)
             axes2[i,j].plot(edge_x, edge_y, color=(0.3,0.3,0.3), linewidth=1)
             axes2[i,j].plot(allowed_segs[ind][0][0][0][0], allowed_segs[ind][0][0][0][1], 'bo', markersize=8)
@@ -99,6 +100,7 @@ def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes):
             for k in range(len(p_x[ind])):
                 axes2[i,j].plot(p_x[ind][k], p_y[ind][k], 'r-', linewidth=1)
             axes2[i,j].set_aspect('equal')
+            axes2[i,j].set_title(entry_nodes[ind])
 
     plt.tight_layout()
     plt.show()

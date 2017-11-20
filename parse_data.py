@@ -75,6 +75,17 @@ def getAllowedRoutes():
             })
         allowed_routes.append(tmp_seq)
     return allowed_routes
+
+#------------------------------------------------#
+#      Create a list with all allowed nodes      #
+#------------------------------------------------#
+def getAllowedNodes(allowed_routes):
+    allowed_nodes = []
+    for route in allowed_routes:
+        for seg in route:
+            allowed_nodes.extend([seg['from'], seg['to']])
+    allowed_nodes = list(set(allowed_nodes))
+    return allowed_nodes
     
 #--------------------------------------------------------#
 #      Create a dictionary with all points in China      #
