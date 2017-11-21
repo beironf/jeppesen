@@ -2,6 +2,7 @@ import parse_data
 import create_forbid_segments
 import generate_srad
 from confirm_solution import ConfirmSolution
+import plot_routes
 import pprint
 
 pp = pprint.PrettyPrinter(indent = 4)
@@ -13,9 +14,10 @@ allowed_routes = parse_data.getAllowedRoutes()
 points = parse_data.getPoints(segments)
 routes_by_entry_node = parse_data.getRoutesForAllEntryNodes(allowed_routes)
 overflyRules = parse_data.getOverflyRules()
-entry_nodes = routes_by_entry_node.keys()
+entry_nodes = list(routes_by_entry_node.keys())
 exit_nodes = parse_data.getExitNodes(allowed_routes)
-pp.pprint(exit_nodes)
+
+allowed_nodes = parse_data.getAllowedNodes(allowed_routes)
 
 
 # generate forbidden constraints
@@ -26,24 +28,16 @@ forbidden_segs = create_forbid_segments.getForbiddenSegments2(routes_by_entry_no
 # generate .srad-file
 generate_srad.generateSRAD(overflyRules, [], forbidden_segs, points)
 # confirm solution
-cs = ConfirmSolution(forbidden_segs, [], segments, points, entry_nodes, exit_nodes)
+cs = ConfirmSolution(forbidden_segs, [], segments, points, entry_nodes, exit_nodes, allowed_nodes)
 possible_routes = cs.getPossibleRoutes()
-#pp.pprint(possible_routes[0])
-pp.pprint(len(possible_routes))
-
-
-
 
 #pp.pprint(possible_routes[4])
-#for j in range(0,len(possible_routes)):
-    #pp.pprint(possible_routes[j][0])
-    #for i in range(1,len(possible_routes[j])):
-     #   if possible_routes[j][i]['from'] == possible_routes[j][i-1]['from']:
-            #pp.pprint(possible_routes[j][i-1]) 
-            #pp.pprint(possible_routes[j][i])
-    #pp.pprint(" ")        
+#pp.pprint(len(possible_routes))
 
 
-#[pp.pprint(points[p]) for p in points if p == 'WPT TODAM']
+pp.pprint(possible_destinations['WPT MAGOG'])
+
+# plot routes
+plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
 
 #pp.pprint(forbidden_segs['WPT SADLI'])

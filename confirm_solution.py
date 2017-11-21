@@ -1,7 +1,6 @@
 
 class ConfirmSolution(object):
-    def __init__(self, forbidden_segs, forbidden_entry_segs, segments, points, entry_nodes, exit_nodes):
-
+    def __init__(self, forbidden_segs, forbidden_entry_segs, segments, points, entry_nodes, exit_nodes, allowed_nodes):
         self.forbidden_segs = forbidden_segs
         self.forbidden_entry_segs = forbidden_entry_segs
         self.segments = segments
@@ -9,6 +8,7 @@ class ConfirmSolution(object):
         self.entry_nodes = entry_nodes
         self.possible_routes = []
         self.exit_nodes = exit_nodes
+        self.allowed_nodes = allowed_nodes
 
     def isForbidden(self, seg, entry_seg):
         if entry_seg['from'] in self.entry_nodes:
@@ -23,16 +23,20 @@ class ConfirmSolution(object):
 
     def find_path(self, seg, used_segs):
         node = seg['to']
+        if used_segs[0]['from']=='WPT MAGOG':
+            print(node)
 
-        if (node in self.exit_nodes or self.points[node]['area'][0]!='Z'):
+        if (node in self.exit_nodes or (self.points[node]['area'][0]!='Z' and node not in self.allowed_nodes)):
             self.possible_routes.append(used_segs)
         
         else:
             for sg in self.getSegments(node):
-                if not(self.isForbidden(sg, used_segs[0])) and self.points[node]['area'][0] == 'Z':
-                    
-                    used_segs.append(sg)
-                    self.find_path(sg, used_segs)
+
+                if not(self.isForbidden(sg, used_segs[0])):
+                    used_segs_tmp = used_segs[:] # needs [:] (otherwise used_segs_tmp will point to used_segs and change it as well)
+                    used_segs_tmp.append(sg)
+                    self.find_path(sg, used_segs_tmp)
+
 
 
     def getPossibleRoutes(self):

@@ -75,6 +75,17 @@ def getAllowedRoutes():
             })
         allowed_routes.append(tmp_seq)
     return allowed_routes
+
+#------------------------------------------------#
+#      Create a list with all allowed nodes      #
+#------------------------------------------------#
+def getAllowedNodes(allowed_routes):
+    allowed_nodes = []
+    for route in allowed_routes:
+        for seg in route:
+            allowed_nodes.extend([seg['from'], seg['to']])
+    allowed_nodes = list(set(allowed_nodes))
+    return allowed_nodes
     
 #--------------------------------------------------------#
 #      Create a dictionary with all points in China      #
@@ -90,16 +101,14 @@ def getPoints(segments):
                 'lat': str(float(line[35:40])/1000), 
                 'lon': str(float(line[42:48])/1000)
             }
-    # create a dictionary with all points in China from our segments
-    #china_points = []
-    #for seg in segments:
-    #    china_points.extend([seg['from'],seg['to']])
-    #china_points = list(set(china_points))
-    # delete all points that are not in China
-    #points_all = dict(points)
-    #for p in points_all:
-    #    if p not in china_points:
-    #        del points[p]
+    # Fix wrong points on segments at border:
+    #   WPT SIERA EGTT (should be VHHK)
+    #   WPT ROMEO EGTT (should be VHHK)
+    #   WPT LANDA HECC (should be VHHK)
+    points['WPT SIERA'] = {'area': 'VHHK', 'lat': '21.592', 'lon': '113.332'}
+    points['WPT ROMEO'] = {'area': 'VHHK', 'lat': '21.518', 'lon': '113.269'}
+    points['WPT LANDA'] = {'area': 'VHHK', 'lat': '21.368', 'lon': '113.027'}
+
     return points
 
 #-------------------------------------------------------------------#
