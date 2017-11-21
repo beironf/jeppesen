@@ -15,6 +15,7 @@ routes_by_entry_node = parse_data.getRoutesForAllEntryNodes(allowed_routes)
 overflyRules = parse_data.getOverflyRules()
 entry_nodes = routes_by_entry_node.keys()
 exit_nodes = parse_data.getExitNodes(allowed_routes)
+pp.pprint(exit_nodes)
 
 
 # generate forbidden constraints
@@ -31,15 +32,18 @@ possible_routes = cs.getPossibleRoutes()
 pp.pprint(len(possible_routes))
 
 
+
+
 #pp.pprint(possible_routes[4])
-for j in range(0,len(possible_routes)):
+#for j in range(0,len(possible_routes)):
     #pp.pprint(possible_routes[j][0])
-    for i in range(1,len(possible_routes[j])):
-        if possible_routes[j][i]['from'] == possible_routes[j][i-1]['from']:
-            pp.pprint(possible_routes[j][i-1]) 
+    #for i in range(1,len(possible_routes[j])):
+     #   if possible_routes[j][i]['from'] == possible_routes[j][i-1]['from']:
+            #pp.pprint(possible_routes[j][i-1]) 
             #pp.pprint(possible_routes[j][i])
-    pp.pprint(" ")        
+    #pp.pprint(" ")        
 
 
 #[pp.pprint(points[p]) for p in points if p == 'WPT TODAM']
 
+#pp.pprint(forbidden_segs['WPT SADLI'])

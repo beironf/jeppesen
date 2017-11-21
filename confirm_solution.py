@@ -30,6 +30,7 @@ class ConfirmSolution(object):
         else:
             for sg in self.getSegments(node):
                 if not(self.isForbidden(sg, used_segs[0])) and self.points[node]['area'][0] == 'Z':
+                    
                     used_segs.append(sg)
                     self.find_path(sg, used_segs)
 
