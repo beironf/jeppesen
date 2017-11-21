@@ -19,7 +19,7 @@ exit_nodes = parse_data.getExitNodes(allowed_routes)
 allowed_nodes = parse_data.getAllowedNodes(allowed_routes)
 
 # generate forbidden constraints
-forbidden_segs = create_forbid_segments.getForbiddenSegments2(routes_by_entry_node, segments, allowed_routes)
+forbidden_segs = create_forbid_segments.getForbiddenSegments(routes_by_entry_node, segments, allowed_routes)
 #forbidden_entry_segs = create_forbid_segments.getForbiddenEntrySegments(routes_by_entry_node, entry_nodes, segments, points)
 
 
