@@ -9,14 +9,14 @@ import splitted_routes_that_merge
 pp = pprint.PrettyPrinter(indent = 4)
 
 # import variables
+print('Get all points')
+points = parse_data.getPoints()
 print('Get segments')
-segments = parse_data.getSegments()
+segments = parse_data.getSegments(points)
 print('Get possible destinations')
 possible_destinations = parse_data.getPossibleDestinations(segments)
 print('Get allowed routes')
 allowed_routes = parse_data.getAllowedRoutes(segments)
-print('Get all points')
-points = parse_data.getPoints()
 print('Sort all routes by entry node')
 routes_by_entry_node = parse_data.getRoutesForAllEntryNodes(allowed_routes)
 print('Read rules for overflight from srad file')
