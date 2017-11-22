@@ -30,11 +30,9 @@ allowed_nodes = parse_data.getAllowedNodes(allowed_routes)
 print('Get list with all segments in alowed routes')
 allowed_segments = parse_data.getAllowedSegments(allowed_routes)
 
-<<<<<<< HEAD
-#pp.pprint(points['WPT ASURI'])
-=======
+
 #pp.pprint(points['WPT ASURI ZB'])
->>>>>>> a08fc226fa62ad60340d4dcc89ab3414cc2ee175
+
 
 
 # generate forbidden constraints
@@ -55,22 +53,21 @@ possible_routes = cs.getPossibleRoutes()
 print('Find if any routes split and then merge again')
 SRTM = splitted_routes_that_merge.getSplittedRoutesThatMerge(possible_routes)
 
-<<<<<<< HEAD
-pp.pprint(SRTM)
+
+for i in range(0, len(possible_routes)):
+    pp.pprint(str(i) + " " + possible_routes[i][0]['from'])
 
 
-=======
-#pp.pprint(SRTM)
->>>>>>> a08fc226fa62ad60340d4dcc89ab3414cc2ee175
+
+
+
 
 #pp.pprint(possible_routes[4])
 print('The number of routes found is ', len(possible_routes))
 
 # plot routes
-<<<<<<< HEAD
-#plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
-=======
+
 print('Saving figures:')
 plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
->>>>>>> a08fc226fa62ad60340d4dcc89ab3414cc2ee175
+
 

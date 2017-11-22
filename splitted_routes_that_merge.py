@@ -43,7 +43,8 @@ def getSplittedRoutesThatMerge(routes):
     for i in range(0, len(routes)-1):
         for j in range(i+1, len(routes)):
             if (splittedRoutesThatMerge(routes[i], routes[j])):
-                splitted_routes_that_merge.append((routes[i], routes[j]))
+                splitted_routes_that_merge.append((i, j))
+
                 #splitted_routes_that_merge = splitted_routes_that_merge + 1
                 
 
