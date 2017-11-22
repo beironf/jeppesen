@@ -56,7 +56,6 @@ SRTM = splitted_routes_that_merge.getSplittedRoutesThatMerge(possible_routes)
 #pp.pprint(possible_routes[4])
 print('The number of routes found is ', len(possible_routes))
 
-
 #pp.pprint(possible_destinations['WPT MAGOG VH'])
 
 # plot routes

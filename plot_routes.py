@@ -103,5 +103,5 @@ def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes):
             axes2[i,j].set_title(entry_nodes[ind])
 
     plt.tight_layout()
-    plt.show()
-
+    fig1.savefig('routes_from_1-16.png')
+    fig2.savefig('routes_from_17-28.png')
