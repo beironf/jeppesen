@@ -3,8 +3,8 @@
 #finds the set of segments that need to be forbidden so that only the mandatory
 #routes are possible to choose. 
 
-def getForbiddenSegments(routes_by_entry_node, segments, allowed_routes):
-    forbidden_segs = {}
+def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes):
+    forbidden_seqs = {}
 
     for entry_node in routes_by_entry_node:
         current_routes = routes_by_entry_node[entry_node]
@@ -28,9 +28,9 @@ def getForbiddenSegments(routes_by_entry_node, segments, allowed_routes):
         for seg in possible_segs:
             if (seg not in used_segs) and (seg not in forbidden_tmp):
                 forbidden_tmp.append(seg)
-        forbidden_segs[entry_node] = forbidden_tmp
+        forbidden_seqs[entry_node] = forbidden_tmp
 
-    return forbidden_segs
+    return forbidden_seqs
 
 def getForbiddenEntrySegments(routes_by_entry_node, entry_nodes, segments, points):
     forbidden_entry_segs = []

@@ -1,5 +1,5 @@
 import parse_data
-import create_forbid_segments
+import create_forbid_sequences
 import generate_srad
 from confirm_solution import ConfirmSolution
 import plot_routes
@@ -19,14 +19,14 @@ exit_nodes = parse_data.getExitNodes(allowed_routes)
 allowed_nodes = parse_data.getAllowedNodes(allowed_routes)
 
 # generate forbidden constraints
-forbidden_segs = create_forbid_segments.getForbiddenSegments(routes_by_entry_node, segments, allowed_routes)
+forbidden_seqs = create_forbid_sequences.getForbiddenSequences(routes_by_entry_node, segments, allowed_routes)
 #forbidden_entry_segs = create_forbid_segments.getForbiddenEntrySegments(routes_by_entry_node, entry_nodes, segments, points)
 
 
 # generate .srad-file
-generate_srad.generateSRAD(overflyRules, [], forbidden_segs, points)
+generate_srad.generateSRAD(overflyRules, [], forbidden_seqs, points)
 # confirm solution
-cs = ConfirmSolution(forbidden_segs, [], segments, points, entry_nodes, exit_nodes, allowed_nodes)
+cs = ConfirmSolution(forbidden_seqs, [], segments, points, entry_nodes, exit_nodes, allowed_nodes)
 possible_routes = cs.getPossibleRoutes()
 #pp.pprint(possible_routes[4])
 #pp.pprint(len(possible_routes))
