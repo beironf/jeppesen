@@ -49,18 +49,16 @@ possible_routes = cs.getPossibleRoutes()
 print('Find if any routes split and then merge again')
 SRTM = splitted_routes_that_merge.getSplittedRoutesThatMerge(possible_routes)
 
-pp.pprint(SRTM)
-
-
-
+#pp.pprint(SRTM)
 
 #pp.pprint(possible_routes[4])
-#pp.pprint(len(possible_routes))
+print('The number of routes found is ', len(possible_routes))
 
 
-pp.pprint(possible_destinations['WPT MAGOG VH'])
+#pp.pprint(possible_destinations['WPT MAGOG VH'])
 
 # plot routes
+print('Plotting routes:')
 plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
 
 #pp.pprint(forbidden_segs['WPT SADLI'])
