@@ -34,15 +34,21 @@ def getOverflyRules():
 #------------------------------------------------#
 #      Create list of all segments in China      #
 #------------------------------------------------#
-def getSegments():
+def getSegments(points):
     segment_lines = readFileLines(segment_path)
     segments = []
     for line in segment_lines:
-        segments.append({
-            'airway': 'AWY '+line[2:8].strip(),
-            'from': mapping[line[21]]+" "+line[9:14].strip()+" "+line[15:17], 
-            'to': mapping[line[35]]+" "+line[23:28].strip()+" "+line[29:31]
-        })
+        fr = mapping[line[21]]+" "+line[9:14].strip()+" "+line[15:17]
+        to = mapping[line[35]]+" "+line[23:28].strip()+" "+line[29:31]
+        if fr in points.keys() and to in points.keys():
+            fr_co = [float(points[fr]['lon']), float(points[fr]['lat'])]
+            to_co = [float(points[to]['lon']), float(points[to]['lat'])]
+            if (fr_co[0]>60 and fr_co[0]<150 and fr_co[1]>0 and fr_co[1]<70) or (to_co[0]>60 and to_co[0]<150 and to_co[1]>0 and to_co[1]<70):
+                segments.append({
+                    'airway': 'AWY '+line[2:8].strip(),
+                    'from': fr,
+                    'to': to
+                })
     return segments
         
 #---------------------------------------------------------------------------#
@@ -116,18 +122,19 @@ def getPoints():
     pointlines = readFileLines(point_path)
     points = {}
     for line in pointlines:
-        if line[1:10] != "  ":
-            points[pointType[line[0]]+" "+line[2:7].strip()+" "+line[8:10]] = {
-                'area': line[19:23], 
-                'lat': str(float(line[35:40])/1000), 
-                'lon': str(float(line[42:48])/1000)
-            }
-        else:
-            points[pointType[line[0]]+" "+line[2:7].strip()+" xx"] = {
-                'area': line[19:23], 
-                'lat': str(format(float(line[35:37])+float(line[37:40])/600,'.3f')), 
-                'lon': str(format(float(line[42:45])+float(line[45:48])/600,'.3f'))
-            }
+        if line[34]=='N' and line[41]=='E':
+            if line[1:10] != "  ":
+                points[pointType[line[0]]+" "+line[2:7].strip()+" "+line[8:10]] = {
+                    'area': line[19:23], 
+                    'lat': str(float(line[35:40])/1000), 
+                    'lon': str(float(line[42:48])/1000)
+                }
+            else:
+                points[pointType[line[0]]+" "+line[2:7].strip()+" xx"] = {
+                    'area': line[19:23], 
+                    'lat': str(format(float(line[35:37])+float(line[37:40])/600,'.3f')), 
+                    'lon': str(format(float(line[42:45])+float(line[45:48])/600,'.3f'))
+                }
 
     return points
 

@@ -9,14 +9,14 @@ import splitted_routes_that_merge
 pp = pprint.PrettyPrinter(indent = 4)
 
 # import variables
+print('Get all points')
+points = parse_data.getPoints()
 print('Get segments')
-segments = parse_data.getSegments()
+segments = parse_data.getSegments(points)
 print('Get possible destinations')
 possible_destinations = parse_data.getPossibleDestinations(segments)
 print('Get allowed routes')
 allowed_routes = parse_data.getAllowedRoutes(segments)
-print('Get all points')
-points = parse_data.getPoints()
 print('Sort all routes by entry node')
 routes_by_entry_node = parse_data.getRoutesForAllEntryNodes(allowed_routes)
 print('Read rules for overflight from srad file')
@@ -29,9 +29,6 @@ print('Find all allowed nodes from the allowed routes list')
 allowed_nodes = parse_data.getAllowedNodes(allowed_routes)
 print('Get list with all segments in alowed routes')
 allowed_segments = parse_data.getAllowedSegments(allowed_routes)
-
-
-#pp.pprint(points['WPT ASURI ZB'])
 
 
 
@@ -54,6 +51,7 @@ print('Find if any routes split and then merge again')
 SRTM = splitted_routes_that_merge.getSplittedRoutesThatMerge(possible_routes)
 
 
+
 for i in range(0, len(possible_routes)):
     pp.pprint(str(i) + " " + possible_routes[i][0]['from'])
 
@@ -67,7 +65,9 @@ print('The number of routes found is ', len(possible_routes))
 
 # plot routes
 
+
 print('Saving figures:')
 plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
+
 
 
