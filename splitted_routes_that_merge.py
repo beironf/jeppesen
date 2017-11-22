@@ -20,35 +20,34 @@ def splittedRoutesThatMerge(route1, route2):
                         mergeNode2 = j
                         
 
-
-
             elif (hasMerged and hasSplitted):
                 for j in range(max(mergeNode1,mergeNode2), len(route1)):
                     if (mergeNode1 > mergeNode2):
                         if (route1[j] != route2[mergeNode2-mergeNode1+j]):
-                            return True
+                            return [[route1[0],route1[mergeNode1-1], route1[mergeNode1], route2[mergeNode2-mergeNode1+j]], [route2[0], route2[mergeNode2-1], route2[mergeNode2], route1[j]]]
                               
                     elif (mergeNode2 > mergeNode1):
                         if (route1[mergeNode1-mergeNode2+j] != route2[j]):
-                            return True
-                            
+                            return [[route1[0], route1[mergeNode1-1], route1[mergeNode1], route2[j]], [route2[0], route2[mergeNode2-1], route2[mergeNode2], route1[mergeNode1-mergeNode2+j]]]
+                                  
                     elif (route1[j] != route2[j]):
                      
-                        return True
+                        return [[route1[0], route1[mergeNode1-1], route1[mergeNode1], route1[j]], [route2[0], route2[mergeNode2-1], route2[mergeNode2], route2[j]]]
         else:
-            return False
+            return []
 
 def getSplittedRoutesThatMerge(routes):
-    splitted_routes_that_merge = []
+    forbidden_seqs = []
     for i in range(0, len(routes)-1):
         for j in range(i+1, len(routes)):
-            if (splittedRoutesThatMerge(routes[i], routes[j])):
-                splitted_routes_that_merge.append((i, j))
+            if splittedRoutesThatMerge(routes[i], routes[j]):
+                forbidden_seqs.extend(splittedRoutesThatMerge(routes[i], routes[j]))
 
                 #splitted_routes_that_merge = splitted_routes_that_merge + 1
-                
 
-    return splitted_routes_that_merge
+    #forbidden_seqs = [x for x in forbidden_seqs if x]                
+
+    return forbidden_seqs
                 
 
 

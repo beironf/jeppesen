@@ -2,9 +2,31 @@
 #The program checks all mandatory routes, grouped by entry point to China, and 
 #finds the set of segments that need to be forbidden so that only the mandatory
 #routes are possible to choose. 
+def readFile(path):
+    with open(path,'r') as f:
+        return f.read()
 
 def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes):
+    srtm_lines = readFile('SRTM.txt')
+    srtm_lines = [seq.replace(']','').replace(',\n','').strip() for seq in srtm_lines.split('[')][1:]
+    srtm = []
+    srtm_entry = []
+    for seq in srtm_lines:
+        tmp_list = seq.split('    ')
+        tmp_seq = []
+        
+        for i,l in (enumerate(tmp_list)):
+            if i == 0:
+                node = l.split(': ')
+                srtm_entry.append(node[2][1:-7]) 
+            else:
+                node = l.split(': ')
+                seg_tmp = {'airway': node[1][1:-9], 'from': node[2][1:-7], 'to': node[3][1:-2]}
+                tmp_seq.append(seg_tmp)
+        srtm.append(tmp_seq)
+    #forbidden_seqs = srtm
     forbidden_seqs = {}
+
 
     for entry_node in routes_by_entry_node:
         current_routes = routes_by_entry_node[entry_node]
@@ -28,6 +50,11 @@ def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes):
         for seg in possible_segs:
             if (seg not in used_segs) and (seg not in forbidden_tmp):
                 forbidden_tmp.append(seg)
+
+        for i,entry_point in enumerate(srtm_entry):
+            if entry_point == entry_node:
+                forbidden_tmp.append(srtm[i])
+
         forbidden_seqs[entry_node] = forbidden_tmp
 
     return forbidden_seqs
