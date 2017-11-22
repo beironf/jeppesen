@@ -32,13 +32,13 @@ def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes):
 
     return forbidden_seqs
 
-def getForbiddenEntrySegments(allowed_segments, segments, points):
+def getForbiddenEntrySegments(allowed_segments, segments):
     forbidden_entry_segs = []
 
     for seg in segments:
-        fr = points[seg['from']]['area'][0]
-        to = points[seg['to']]['area'][0]
-        if (fr != 'Z' and to == 'Z') and seg not in allowed_segments: # if seg is from another country to China
+        fr = seg['from'][-2]
+        to = seg['to'][-2]
+        if (fr != 'Z' and to == 'Z') and (seg not in allowed_segments): # if seg is from another country to China
             forbidden_entry_segs.append(seg)
 
     return forbidden_entry_segs
