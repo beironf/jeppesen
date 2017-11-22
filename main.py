@@ -31,8 +31,6 @@ possible_routes = cs.getPossibleRoutes()
 #pp.pprint(possible_routes[4])
 #pp.pprint(len(possible_routes))
 
-pp.pprint(possible_destinations['WPT MAGOG'])
-
 # plot routes
 plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
 
