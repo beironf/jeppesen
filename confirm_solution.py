@@ -36,10 +36,13 @@ class ConfirmSolution(object):
         
         else:
             for sg in self.getSegments(node):
-                if not(self.isForbidden(sg, used_segs)):
+
+                if not(self.isForbidden(sg, used_segs[0])):
+
                     used_segs_tmp = used_segs[:] # needs [:] (otherwise used_segs_tmp will point to used_segs and change it as well)
                     used_segs_tmp.append(sg)
                     self.find_path(sg, used_segs_tmp)
+
 
 
     def getPossibleRoutes(self):
@@ -53,4 +56,9 @@ class ConfirmSolution(object):
                 self.find_path(start_seg, used_segs)
 
         return self.possible_routes
+
+
+
+
+
 

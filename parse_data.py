@@ -38,12 +38,11 @@ def getSegments():
     segment_lines = readFileLines(segment_path)
     segments = []
     for line in segment_lines:
-        if line[15]=="Z" or line[29]=="Z":  # pick the segments with at least one node in China ("z")
-            segments.append({
-                'airway': 'AWY '+line[2:8].strip(),
-                'from': mapping[line[21]]+" "+line[9:14].strip(), 
-                'to': mapping[line[35]]+" "+line[23:28].strip()
-            })
+        segments.append({
+            'airway': 'AWY '+line[2:8].strip(),
+            'from': mapping[line[21]]+" "+line[9:14].strip()+" "+line[15:17], 
+            'to': mapping[line[35]]+" "+line[23:28].strip()+" "+line[29:31]
+        })
     return segments
         
 #---------------------------------------------------------------------------#
@@ -57,7 +56,7 @@ def getPossibleDestinations(segments):
 #-------------------------------------------------#
 #      Create a list with all allowed routes      #
 #-------------------------------------------------#
-def getAllowedRoutes():
+def getAllowedRoutes(segments):
     # import from file
     allowed_routes = []
     sequences = readFile(srad_path)
@@ -73,7 +72,18 @@ def getAllowedRoutes():
                 'from': cols[8]+" "+cols[9],
                 'to': cols[12]+" "+cols[13]
             })
-        allowed_routes.append(tmp_seq)
+
+        #Find corresponding segment in the segment list to
+        #get correct point type
+        tmp_seq2 = []
+        for tmp_seg in tmp_seq:
+            for seg in segments:
+                if tmp_seg['airway']==seg['airway'] and \
+                    tmp_seg['from'] in seg['from'] and \
+                    tmp_seg['to'] in seg['to']:
+                    tmp_seq2.append(seg)
+
+        allowed_routes.append(tmp_seq2)
     return allowed_routes
 
 #------------------------------------------------#
@@ -90,17 +100,24 @@ def getAllowedNodes(allowed_routes):
 #--------------------------------------------------------#
 #      Create a dictionary with all points in China      #
 #--------------------------------------------------------#
-def getPoints(segments):
+def getPoints():
     # import from file
     pointlines = readFileLines(point_path)
     points = {}
     for line in pointlines:
-        if not(pointType[line[0]]+" "+line[2:7].strip() in points.keys() and line[19] != 'Z'):
-            points[pointType[line[0]]+" "+line[2:7].strip()] = {
+        if line[1:10] != "  ":
+            points[pointType[line[0]]+" "+line[2:7].strip()+" "+line[8:10]] = {
                 'area': line[19:23], 
                 'lat': str(float(line[35:40])/1000), 
                 'lon': str(float(line[42:48])/1000)
             }
+        else:
+            points[pointType[line[0]]+" "+line[2:7].strip()+" xx"] = {
+                'area': line[19:23], 
+                'lat': str(format(float(line[35:37])+float(line[37:40])/600,'.3f')), 
+                'lon': str(format(float(line[42:45])+float(line[45:48])/600,'.3f'))
+            }
+
     # Fix wrong points on segments at border:
     #   WPT SIERA EGTT (should be VHHK)
     #   WPT ROMEO EGTT (should be VHHK)
