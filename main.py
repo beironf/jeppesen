@@ -27,6 +27,8 @@ print('Get all exit nodes')
 exit_nodes = parse_data.getExitNodes(allowed_routes)
 print('Find all allowed nodes from the allowed routes list')
 allowed_nodes = parse_data.getAllowedNodes(allowed_routes)
+print('Get list with all segments in alowed routes')
+allowed_segments = parse_data.getAllowedSegments(allowed_routes)
 
 #pp.pprint(points['WPT ASURI ZB'])
 
@@ -34,7 +36,7 @@ allowed_nodes = parse_data.getAllowedNodes(allowed_routes)
 # generate forbidden constraints
 print('Create list of forbidden segments')
 forbidden_seqs = create_forbid_sequences.getForbiddenSequences(routes_by_entry_node, segments, allowed_routes)
-#forbidden_entry_segs = create_forbid_segments.getForbiddenEntrySegments(routes_by_entry_node, entry_nodes, segments, points)
+forbidden_entry_segs = create_forbid_sequences.getForbiddenEntrySegments(allowed_segments, segments, points)
 
 
 # generate .srad-file

@@ -86,6 +86,17 @@ def getAllowedRoutes(segments):
         allowed_routes.append(tmp_seq2)
     return allowed_routes
 
+#-------------------------------------------------#
+#      Create a list with all allowed segments    #
+#-------------------------------------------------#
+def getAllowedSegments(allowed_routes):
+    allowed_segments = []
+    for route in allowed_routes:
+        for seg in route:
+            if seg not in allowed_segments:
+                allowed_segments.append(seg)
+    return allowed_segments
+
 #------------------------------------------------#
 #      Create a list with all allowed nodes      #
 #------------------------------------------------#
@@ -118,14 +129,6 @@ def getPoints():
                 'lon': str(format(float(line[42:45])+float(line[45:48])/600,'.3f'))
             }
 
-    # Fix wrong points on segments at border:
-    #   WPT SIERA EGTT (should be VHHK)
-    #   WPT ROMEO EGTT (should be VHHK)
-    #   WPT LANDA HECC (should be VHHK)
-    points['WPT SIERA'] = {'area': 'VHHK', 'lat': '21.592', 'lon': '113.332'}
-    points['WPT ROMEO'] = {'area': 'VHHK', 'lat': '21.518', 'lon': '113.269'}
-    points['WPT LANDA'] = {'area': 'VHHK', 'lat': '21.368', 'lon': '113.027'}
-
     return points
 
 #-------------------------------------------------------------------#
@@ -154,6 +157,3 @@ def getExitNodes(allowed_routes):
         if not(route[len(route)-1]['to'] in exit_nodes):
             exit_nodes.append(route[len(route)-1]['to'])
     return exit_nodes
-    
-
-            
