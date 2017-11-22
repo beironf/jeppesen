@@ -98,8 +98,8 @@ def getPoints(segments):
         if not(pointType[line[0]]+" "+line[2:7].strip() in points.keys() and line[19] != 'Z'):
             points[pointType[line[0]]+" "+line[2:7].strip()] = {
                 'area': line[19:23], 
-                'lat': str(float(line[35:40])/1000), 
-                'lon': str(float(line[42:48])/1000)
+                'lat': str(format(float(line[35:37])+float(line[37:40])/600,'.3f')), 
+                'lon': str(format(float(line[42:45])+float(line[45:48])/600,'.3f'))
             }
     # Fix wrong points on segments at border:
     #   WPT SIERA EGTT (should be VHHK)

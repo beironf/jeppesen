@@ -67,3 +67,5 @@ def getForbiddenEntrySegments(routes_by_entry_node, entry_nodes, segments, point
                 forbidden_entry_segs.append(seg)
 
     return forbidden_entry_segs
+
+
