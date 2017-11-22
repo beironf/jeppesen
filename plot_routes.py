@@ -74,7 +74,7 @@ def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes):
 
 
     # Print out the routes
-    fig1, axes1 = plt.subplots(4, 4, sharex=True, sharey=True)
+    fig1, axes1 = plt.subplots(4, 4, sharex=True, sharey=True, figsize=(12,7))
     for i in range(4):
         for j in range(4):
             ind = i*4+j
@@ -88,7 +88,7 @@ def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes):
             axes1[i,j].set_aspect('equal')
             axes1[i,j].set_title(entry_nodes[ind])
 
-    fig2, axes2 = plt.subplots(3, 4, sharex=True, sharey=True)
+    fig2, axes2 = plt.subplots(3, 4, sharex=True, sharey=True, figsize=(12,7))
     for i in range(3):
         for j in range(4):
             ind = 16+i*4+j
@@ -103,5 +103,5 @@ def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes):
             axes2[i,j].set_title(entry_nodes[ind])
 
     plt.tight_layout()
-    plt.show()
-
+    fig1.savefig('routes_from_1-16.png')
+    fig2.savefig('routes_from_17-28.png')
