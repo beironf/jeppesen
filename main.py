@@ -22,7 +22,7 @@ exit_nodes = parse_data.getExitNodes(allowed_routes)
 
 allowed_nodes = parse_data.getAllowedNodes(allowed_routes)
 
-pp.pprint(points['WPT ASURI'])
+#pp.pprint(points['WPT ASURI'])
 
 
 # generate forbidden constraints
@@ -44,7 +44,6 @@ pp.pprint(SRTM)
 
 
 
-
 #pp.pprint(possible_routes[4])
 #pp.pprint(len(possible_routes))
 
@@ -52,6 +51,6 @@ pp.pprint(SRTM)
 pp.pprint(possible_destinations['WPT MAGOG'])
 
 # plot routes
-plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
+#plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
 
 #pp.pprint(forbidden_segs['WPT SADLI'])

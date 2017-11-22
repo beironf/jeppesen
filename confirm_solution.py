@@ -11,8 +11,10 @@ class ConfirmSolution(object):
         self.allowed_nodes = allowed_nodes
 
     def isForbidden(self, seg, used_segs):
+        #print(used_segs)
         if used_segs[0]['from'] in self.entry_nodes:
             seqs = [seg]
+
             # get all two-joined combinations + seg
             if len(used_segs)>1:
                 for i in range(len(used_segs)-2):
@@ -37,8 +39,7 @@ class ConfirmSolution(object):
         else:
             for sg in self.getSegments(node):
 
-                if not(self.isForbidden(sg, used_segs[0])):
-
+                if not(self.isForbidden(sg, used_segs)):
                     used_segs_tmp = used_segs[:] # needs [:] (otherwise used_segs_tmp will point to used_segs and change it as well)
                     used_segs_tmp.append(sg)
                     self.find_path(sg, used_segs_tmp)
@@ -49,9 +50,10 @@ class ConfirmSolution(object):
         start_segs = []
         
         [start_segs.extend(self.getSegments(node)) for node in self.entry_nodes]
-        
+                
         for start_seg in start_segs:
             used_segs = [start_seg]
+            #print(used_segs)
             if not(self.isForbidden(start_seg, used_segs)):
                 self.find_path(start_seg, used_segs)
 
