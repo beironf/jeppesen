@@ -30,20 +30,14 @@ class ConfirmSolution(object):
 
     def find_path(self, seg, used_segs):
         node = seg['to']
-
         if (node in self.exit_nodes or (self.points[node]['area'][0]!='Z' and node not in self.allowed_nodes)):
             self.possible_routes.append(used_segs)
-        
         else:
             for sg in self.getSegments(node):
-
-                if not(self.isForbidden(sg, used_segs[0])):
-
+                if not(self.isForbidden(sg, used_segs)):
                     used_segs_tmp = used_segs[:] # needs [:] (otherwise used_segs_tmp will point to used_segs and change it as well)
                     used_segs_tmp.append(sg)
                     self.find_path(sg, used_segs_tmp)
-
-
 
     def getPossibleRoutes(self):
         start_segs = []
@@ -56,9 +50,3 @@ class ConfirmSolution(object):
                 self.find_path(start_seg, used_segs)
 
         return self.possible_routes
-
-
-
-
-
-
