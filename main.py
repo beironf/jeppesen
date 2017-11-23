@@ -55,8 +55,6 @@ SRTM = splitted_routes_that_merge.getSplittedRoutesThatMerge(possible_routes)
 
 
 
-
-
 #for i in range(0, len(possible_routes)):
  #   pp.pprint(str(i) + " " + possible_routes[i][0]['from'])
 
@@ -71,8 +69,31 @@ print('The number of routes found is ', len(possible_routes))
 # plot routes
 
 
+
 print('Saving figures:')
 plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
+count = 0
+not_in_allowed = []
+not_in_possible = []
+for j,pr in enumerate(possible_routes):
+    bool_temp = False
+    for i,ar in enumerate(allowed_routes):
+        if pr == ar:
+            count = count + 1
+            #pp.pprint(j)
+            #pp.pprint(i)
+            #pp.pprint(" ")
+            bool_temp = True
+    if bool_temp == False:
+        not_in_allowed.append(pr)        
 
 
+for j,ar in enumerate(allowed_routes):
+    bool_temp = False 
+    for i,pr in enumerate(possible_routes):
+        if ar == pr:
+            bool_temp = True
+    if bool_temp == False:
+        not_in_possible.append(ar)
 
+pp.pprint(SRTM)
