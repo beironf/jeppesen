@@ -49,9 +49,18 @@ def generateSRAD(overflyRules, forbidden_entry_segs, forbidden_segs, points):
         srad.write("\n  )\n)\n(\n")
         current_segs = forbidden_segs[entry_node]
         for seg in current_segs:
-            srad.write("  (Segment N (FL 0) (FL99000) "+seg['airway']+" "
-                +seg['from'][:-3]+" "+points[seg['from']]['lon']+" "
-                +points[seg['from']]['lat']+" "+seg['to'][:-3]+" "
-                +points[seg['to']]['lon'] + " "+points[seg['to']]['lat']+")\n")
+            if type(seg) is dict:
+                srad.write("  (Segment N (FL 0) (FL99000) "+seg['airway']+" "
+                    +seg['from'][:-3]+" "+points[seg['from']]['lon']+" "
+                    +points[seg['from']]['lat']+" "+seg['to'][:-3]+" "
+                    +points[seg['to']]['lon'] + " "+points[seg['to']]['lat']+")\n")
+            if type(seg) is list:
+                srad.write("  (Seq\n")
+                for seg_line in seg:
+                    srad.write("    (Segment N (FL 0) (FL99000) "+seg_line['airway']+" "
+                        +seg_line['from'][:-3]+" "+points[seg_line['from']]['lon']+" "
+                        +points[seg_line['from']]['lat']+" "+seg_line['to'][:-3]+" "
+                        +points[seg_line['to']]['lon'] + " "+points[seg_line['to']]['lat']+")\n")
+                srad.write("  )\n")
         srad.write(")\n)")
     srad.close()
