@@ -53,10 +53,18 @@ for entry_node in entry_nodes:
 			count_possible = count_possible+1
 	nr_of_routes_per_entry[entry_node] = {'allowed': count_allowed, 'possible': count_possible}
 
+count_identical = 0
+for pr in possible_routes:
+    for ar in allowed_routes:
+        if pr == ar:
+            count_identical = count_identical + 1
+
+
 #pp.pprint(forbidden_seqs['WPT SADLI RK'])
 
 pp.pprint(nr_of_routes_per_entry)
 print('The number of routes found is ', len(possible_routes))
+print('The number of identical routes ', count_identical) 
 
 print('Saving figures')
 plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)

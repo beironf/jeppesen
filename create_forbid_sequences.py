@@ -94,10 +94,15 @@ def getUsedSegsBeforeNode(node, route):
             used_segs.append(sg)
     return used_segs
 
+def getUniqueElements(l):
+    unique = []
+    [unique.append(x) for x in l if x not in unique]
+    return unique
+
 def find_forbidden_seq(seg, used_segs, allowed_segments, routes_by_entry_node):
     node = seg['to']
     next_allowed_segs = getAllowedSegmentsFrom(node, getAllowedSegmentsFromEntryNode(used_segs[0]['from'], routes_by_entry_node))
-    next_allowed_segs = list({(v['airway'], v['from'], v['to']):v for v in next_allowed_segs}.values()) # unique
+    next_allowed_segs = getUniqueElements(next_allowed_segs)
     if len(next_allowed_segs) == 0:
         return []
     elif len(next_allowed_segs) == 1:
@@ -105,6 +110,7 @@ def find_forbidden_seq(seg, used_segs, allowed_segments, routes_by_entry_node):
         return find_forbidden_seq(next_allowed_segs[0], used_segs, allowed_segments, routes_by_entry_node)
     else: # we have multiple segments to chose as next
         # find splitted route from the current path that have merged again
+        forbidden_tmp = []
         for sg in next_allowed_segs:
             for route in routes_by_entry_node[used_segs[0]['from']]:
                 if not(issubset(used_segs, route)) and any([s['to']==node for s in route]) and sg not in route: # if splitted and merged and (forbidden sg?)
@@ -114,19 +120,19 @@ def find_forbidden_seq(seg, used_segs, allowed_segments, routes_by_entry_node):
                     for i in range(len(route_used_segs)-1):
                         seq = [route_used_segs[i], route_used_segs[i+1], sg]
                         if not(any([issubset(seq, r) for r in routes_by_entry_node[used_segs[0]['from']]])):
-                            forbidden_tmp = []
-                            forbidden_tmp.append(seq)
-                            # We don't check for more than one split and merge
-                            #used_segs_tmp = list(used_segs)
-                            #used_segs_tmp.append(sg)
-                            #forbidden_tmp_more = find_forbidden_seq(sg, used_segs_tmp, allowed_segments, routes_by_entry_node)
-                            return forbidden_tmp
+                            if seq not in forbidden_tmp:
+                                forbidden_tmp.append(seq)
 
-                    #print("\nEntry_node: "+used_segs[0]['from']+"\n Couldn't forbid "+str(sg)+" for route\n\n"+str(route))
+                    #print("\nEntry_node: "+used_segs[0]['from']+"\n Couldn't forbid "+str(sg)+" for seq:\n\n"+str(route_used_segs+[sg]))
 
             used_segs_tmp = list(used_segs)
             used_segs_tmp.append(sg)
-            return find_forbidden_seq(sg, used_segs_tmp, allowed_segments, routes_by_entry_node) # check sg's path if there are more
+            forbidden_tmp_more = find_forbidden_seq(sg, used_segs_tmp, allowed_segments, routes_by_entry_node)
+            if forbidden_tmp_more:
+                for forbid in forbidden_tmp_more:
+                    forbidden_tmp.append(forbid)
+        
+        return forbidden_tmp
 
 
 def getForbiddenSequences2(routes_by_entry_node, segments, allowed_routes, allowed_segments):
@@ -156,6 +162,7 @@ def getForbiddenSequences2(routes_by_entry_node, segments, allowed_routes, allow
 
         for entry_seg in getAllowedSegmentsFrom(entry_node, getAllowedSegmentsFromEntryNode(entry_node, routes_by_entry_node)):
             forbidden_tmp.extend(find_forbidden_seq(entry_seg, [entry_seg], allowed_segments, routes_by_entry_node))
+        forbidden_tmp = getUniqueElements(forbidden_tmp)
 
         forbidden_seqs[entry_node] = forbidden_tmp
 
