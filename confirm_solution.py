@@ -10,18 +10,29 @@ class ConfirmSolution(object):
         self.exit_nodes = exit_nodes
         self.allowed_nodes = allowed_nodes
 
-    def isForbidden(self, seg, used_segs):
-        #print(used_segs)
-        if used_segs[0]['from'] in self.entry_nodes:
-            seqs = [seg]
+    def isSubsetInOrder(self, a, b):
+        if type(a) is dict:
+            a = [a]
+        if type(b) is dict:
+            b = [b]
+        if len(a)>len(b):
+            return False
+        else:
+            j_start = 0
+            count = 0
+            for i in range(len(a)):
+                for j in range(j_start, len(b)):
+                    if a[i]==b[j]:
+                        j_start = j+1
+                        count = count+1
+                        break
+            return count == len(a)
 
-            # get all two-joined combinations + seg
-            if len(used_segs)>1:
-                for i in range(len(used_segs)-1):
-                    seqs.append([used_segs[i],used_segs[i+1],seg])
-            # test if some of these seqs are forbidden
-            for seq in seqs:
-                if seq in self.forbidden_seqs[used_segs[0]['from']]:
+    def isForbidden(self, seg, used_segs):
+        if used_segs[0]['from'] in self.entry_nodes:
+            seq = used_segs+[seg]
+            for forbid in self.forbidden_seqs[seq[0]['from']]:
+                if self.isSubsetInOrder(forbid, seq):
                     return True
         else:
             return False
@@ -43,12 +54,10 @@ class ConfirmSolution(object):
 
     def getPossibleRoutes(self):
         start_segs = []
-        
         [start_segs.extend(self.getSegments(node)) for node in self.entry_nodes]
                 
         for start_seg in start_segs:
             used_segs = [start_seg]
-            #print(used_segs)
             if not(self.isForbidden(start_seg, used_segs)):
                 self.find_path(start_seg, used_segs)
 

@@ -1,12 +1,12 @@
-#Program to create forbid segments
+#Program to create forbid segments and sequences
 #The program checks all mandatory routes, grouped by entry point to China, and 
-#finds the set of segments that need to be forbidden so that only the mandatory
+#finds the set of segments and sequences that need to be forbidden so that only the mandatory
 #routes are possible to choose. 
 def readFile(path):
     with open(path,'r') as f:
         return f.read()
 
-def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes):
+def getForbiddenSequences2(routes_by_entry_node, segments, allowed_routes):
     srtm_lines = readFile('SRTM.txt')
     srtm_lines = [seq.replace(']','').replace(',\n','').strip() for seq in srtm_lines.split('[')][1:]
     srtm = []
@@ -26,7 +26,6 @@ def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes):
         srtm.append(tmp_seq)
     #forbidden_seqs = srtm
     forbidden_seqs = {}
-
 
     for entry_node in routes_by_entry_node:
         current_routes = routes_by_entry_node[entry_node]
@@ -59,18 +58,6 @@ def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes):
 
     return forbidden_seqs
 
-
-
-
-
-
-
-
-##########################################################################################################
-##########################################################################################################
-
-
-
 def getAllowedSegmentsFrom(fr, allowed_segments):
         segs = [seg for seg in allowed_segments if seg['from']==fr]
         return segs
@@ -81,8 +68,13 @@ def getAllowedSegmentsFromEntryNode(entry_node, routes_by_entry_node):
             segs.extend([sg for sg in route])
         return segs
 
-def issubset(a,b):
-    return all([any([a[i]==b[j] for j in range(len(b))]) for i in range(len(a))])
+def issubset(a, b):
+    if len(a)>len(b):
+        return False
+    else:
+        if len(a)==1:
+            a = [a]
+        return all([any([a[i]==b[j] for j in range(len(b))]) for i in range(len(a))])
 
 def getUsedSegsBeforeNode(node, route):
     used_segs = []
@@ -134,8 +126,7 @@ def find_forbidden_seq(seg, used_segs, allowed_segments, routes_by_entry_node):
         
         return forbidden_tmp
 
-
-def getForbiddenSequences2(routes_by_entry_node, segments, allowed_routes, allowed_segments):
+def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes, allowed_segments):
     forbidden_seqs = {}
     for entry_node in routes_by_entry_node:
         current_routes = routes_by_entry_node[entry_node]
@@ -160,6 +151,7 @@ def getForbiddenSequences2(routes_by_entry_node, segments, allowed_routes, allow
             if (seg not in used_segs) and (seg not in forbidden_tmp):
                 forbidden_tmp.append(seg)
 
+        #Find which sequences to forbid (prevent routes from splitting and merge and then splitting again)
         for entry_seg in getAllowedSegmentsFrom(entry_node, getAllowedSegmentsFromEntryNode(entry_node, routes_by_entry_node)):
             forbidden_tmp.extend(find_forbidden_seq(entry_seg, [entry_seg], allowed_segments, routes_by_entry_node))
         forbidden_tmp = getUniqueElements(forbidden_tmp)
@@ -167,17 +159,6 @@ def getForbiddenSequences2(routes_by_entry_node, segments, allowed_routes, allow
         forbidden_seqs[entry_node] = forbidden_tmp
 
     return forbidden_seqs
-
-
-
-##########################################################################################################
-##########################################################################################################
-
-
-
-
-
-
 
 def getForbiddenEntrySegments(allowed_segments, segments):
     forbidden_entry_segs = []

@@ -27,67 +27,44 @@ print('Get all exit nodes')
 exit_nodes = parse_data.getExitNodes(allowed_routes)
 print('Find all allowed nodes from the allowed routes list')
 allowed_nodes = parse_data.getAllowedNodes(allowed_routes)
-print('Get list with all segments in alowed routes')
+print('Get list with all segments in allowed routes')
 allowed_segments = parse_data.getAllowedSegments(allowed_routes)
 
-# generate forbidden constraints
-print('Create list of forbidden segments')
-forbidden_seqs = create_forbid_sequences.getForbiddenSequences(routes_by_entry_node, segments, allowed_routes)
+print('Create list of forbidden segments and sequences')
+forbidden_seqs = create_forbid_sequences.getForbiddenSequences(routes_by_entry_node, segments, allowed_routes, allowed_segments)
 forbidden_entry_segs = create_forbid_sequences.getForbiddenEntrySegments(allowed_segments, segments)
-#pp.pprint(forbidden_seqs)
 
-# generate .srad-file
 print('Generate new srad file')
 generate_srad.generateSRAD(overflyRules, forbidden_entry_segs, forbidden_seqs, points)
 
-# confirm solution
-print('Confirm if correct solutions')
+print('Confirm solution')
 cs = ConfirmSolution(forbidden_seqs, [], segments, points, entry_nodes, exit_nodes, allowed_nodes)
 possible_routes = cs.getPossibleRoutes()
 
-print('Find if any routes split and then merge again')
-SRTM = splitted_routes_that_merge.getSplittedRoutesThatMerge(possible_routes)
+print('\nNr of routes per entry node\n')
+nr_of_routes_per_entry = {}
+for entry_node in entry_nodes:
+    count_allowed = 0
+    count_possible = 0
+    for route in allowed_routes:
+        if route[0]['from'] == entry_node:
+            count_allowed = count_allowed+1
+    for route in possible_routes:
+        if route[0]['from'] == entry_node:
+            count_possible = count_possible+1
+    nr_of_routes_per_entry[entry_node] = {'allowed': count_allowed, 'possible': count_possible}
+pp.pprint(nr_of_routes_per_entry)
 
-
-#for i in range(0, len(possible_routes)):
- #   pp.pprint(str(i) + " " + possible_routes[i][0]['from'])
-
-#splitted_routes_that_merge.splittedRoutesThatMerge(possible_routes[10], possible_routes[16])
-
-#pp.pprint(possible_routes[4])
-print('The number of routes found is ', len(possible_routes))
-
-# plot routes
-
-
-
-
-print('Saving figures:')
-plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
-count = 0
-not_in_allowed = []
-not_in_possible = []
-for j,pr in enumerate(possible_routes):
-    bool_temp = False
-    for i,ar in enumerate(allowed_routes):
+print('\nNr of routes:')
+count_identical = 0
+for pr in possible_routes:
+    for ar in allowed_routes:
         if pr == ar:
-            count = count + 1
-            #pp.pprint(j)
-            #pp.pprint(i)
-            #pp.pprint(" ")
-            bool_temp = True
-    if bool_temp == False:
-        not_in_allowed.append(pr)        
+            count_identical = count_identical + 1
+print('The number of routes found is ', len(possible_routes))
+print('The number of identical routes ', count_identical) 
 
-
-for j,ar in enumerate(allowed_routes):
-    bool_temp = False 
-    for i,pr in enumerate(possible_routes):
-        if ar == pr:
-            bool_temp = True
-    if bool_temp == False:
-        not_in_possible.append(ar)
-
-pp.pprint(SRTM)
+print('Saving figures')
+plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
 
 
