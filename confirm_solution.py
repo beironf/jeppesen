@@ -44,7 +44,7 @@ class ConfirmSolution(object):
 
     def find_path(self, seg, used_segs):
         node = seg['to']
-        if (node in self.exit_nodes or (self.points[node]['area'][0:2] not in chinese_areas and node not in self.allowed_nodes)):
+        if (node in self.exit_nodes or (self.points[node]['area'][0:2] not in self.chinese_areas and node not in self.allowed_nodes)):
             self.possible_routes.append(used_segs)
         else:
             for sg in self.getSegments(node):

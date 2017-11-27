@@ -15,7 +15,7 @@ chinese_areas = ['ZB',
                  'ZP',
                  'ZS',
                  'ZW',
-                 'ZY']                    ]
+                 'ZY']
 
 # import variables
 print('Get all points')
@@ -41,11 +41,11 @@ allowed_segments = parse_data.getAllowedSegments(allowed_routes)
 
 print('Create list of forbidden segments and sequences')
 forbidden_seqs = create_forbid_sequences.getForbiddenSequences(routes_by_entry_node, segments, allowed_routes, allowed_segments)
-forbidden_entry_segs =
-create_forbid_sequences.getForbiddenEntrySegments(allowed_segments, segments, chinese_areas, entry_nodes)
+forbidden_entry_segs = create_forbid_sequences.getForbiddenEntrySegments(allowed_segments, segments, chinese_areas, entry_nodes)
 
 print('Generate new srad file')
-generate_srad.generateSRAD(overflyRules, forbidden_entry_segs, forbidden_seqs, points)
+generate_srad.generateSRAD_f(overflyRules, forbidden_entry_segs, forbidden_seqs, points)
+generate_srad.generateSRAD_m(overflyRules, forbidden_entry_segs, forbidden_seqs, points)
 
 print('Confirm solution')
 cs = ConfirmSolution(forbidden_seqs, [], segments, points, entry_nodes, exit_nodes, allowed_nodes, chinese_areas)
