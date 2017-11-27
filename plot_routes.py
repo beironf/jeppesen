@@ -1,17 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes):
-
-    china_points = [p for p in points if points[p]['area'][0]=='Z']
+def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes, chinese_areas):
+    china_points = [p for p in points if points[p]['area'][0:2] in chinese_areas]
     china_lat = [points[p]['lat'] for p in china_points]
     china_lon = [points[p]['lon'] for p in china_points]
-    
-    edge_x = []
-    edge_y = []
-    for i in [10, 16, 3, 17, 0, 8, 20]:
-        edge_x.append(points[entry_nodes[i]]['lon'])
-        edge_y.append(points[entry_nodes[i]]['lat'])
 
     # Create list of allowed routes for all entry_nodes containing [lon, lat] from -> to
     allowed_segs = []
@@ -79,7 +72,6 @@ def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes):
         for j in range(4):
             ind = i*4+j
             axes1[i,j].scatter(china_lon, china_lat, c=(0.8,0.8,0.8), s=2)
-            axes1[i,j].plot(edge_x, edge_y, color=(0.3,0.3,0.3), linewidth=1)
             axes1[i,j].plot(allowed_segs[ind][0][0][0][0], allowed_segs[ind][0][0][0][1], 'bo', markersize=6)
             for k in range(len(a_x[ind])):
                 axes1[i,j].plot(a_x[ind][k], a_y[ind][k], 'g-', linewidth=3)
@@ -93,7 +85,6 @@ def plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes):
         for j in range(4):
             ind = 16+i*4+j
             axes2[i,j].scatter(china_lon, china_lat, c=(0.8,0.8,0.8), s=5)
-            axes2[i,j].plot(edge_x, edge_y, color=(0.3,0.3,0.3), linewidth=1)
             axes2[i,j].plot(allowed_segs[ind][0][0][0][0], allowed_segs[ind][0][0][0][1], 'bo', markersize=8)
             for k in range(len(a_x[ind])):
                 axes2[i,j].plot(a_x[ind][k], a_y[ind][k], 'g-', linewidth=4)

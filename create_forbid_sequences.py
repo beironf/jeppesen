@@ -109,8 +109,8 @@ def find_forbidden_seq(seg, used_segs, allowed_segments, routes_by_entry_node):
                     route_used_segs = getUsedSegsBeforeNode(node, route)
                     # create all possible forbid seq and check if any route from current entry_node gets violated
                     # if not, we set seq as a forbid_seq
-                    for i in range(len(route_used_segs)-1):
-                        seq = [route_used_segs[i], route_used_segs[i+1], sg]
+                    for i in range(len(route_used_segs)):
+                        seq = [route_used_segs[i], sg]
                         if not(any([issubset(seq, r) for r in routes_by_entry_node[used_segs[0]['from']]])):
                             if seq not in forbidden_tmp:
                                 forbidden_tmp.append(seq)

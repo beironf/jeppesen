@@ -1,6 +1,6 @@
 
 class ConfirmSolution(object):
-    def __init__(self, forbidden_seqs, forbidden_entry_segs, segments, points, entry_nodes, exit_nodes, allowed_nodes):
+    def __init__(self, forbidden_seqs, forbidden_entry_segs, segments, points, entry_nodes, exit_nodes, allowed_nodes, chinese_areas):
         self.forbidden_seqs = forbidden_seqs
         self.forbidden_entry_segs = forbidden_entry_segs
         self.segments = segments
@@ -9,6 +9,7 @@ class ConfirmSolution(object):
         self.possible_routes = []
         self.exit_nodes = exit_nodes
         self.allowed_nodes = allowed_nodes
+        self.chinese_areas = chinese_areas
 
     def isSubsetInOrder(self, a, b):
         if type(a) is dict:
@@ -43,7 +44,7 @@ class ConfirmSolution(object):
 
     def find_path(self, seg, used_segs):
         node = seg['to']
-        if (node in self.exit_nodes or (self.points[node]['area'][0]!='Z' and node not in self.allowed_nodes)):
+        if (node in self.exit_nodes or (self.points[node]['area'][0:2] not in chinese_areas and node not in self.allowed_nodes)):
             self.possible_routes.append(used_segs)
         else:
             for sg in self.getSegments(node):
