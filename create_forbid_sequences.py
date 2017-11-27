@@ -109,6 +109,10 @@ def getSegmentsTo(to, segments):
         segs = [seg for seg in segments if seg['to']==to]
         return segs
 
+def getSegmentsFrom(fr, segments):
+        segs = [seg for seg in segments if seg['from']==fr]
+        return segs
+
 def getForbiddenEntrySegments(allowed_segments, segments, chinese_areas, entry_nodes, allowed_nodes):
     forbidden_entry_segs = []
 
@@ -130,5 +134,3 @@ def getForbiddenEntrySegments(allowed_segments, segments, chinese_areas, entry_n
                     forbidden_entry_segs.append(seg)
 
     return forbidden_entry_segs
-
-
