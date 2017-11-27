@@ -8,6 +8,15 @@ import splitted_routes_that_merge
 
 pp = pprint.PrettyPrinter(indent = 4)
 
+chinese_areas = ['ZB',
+                 'ZG',
+                 'ZH',
+                 'ZL',
+                 'ZP',
+                 'ZS',
+                 'ZW',
+                 'ZY']                    ]
+
 # import variables
 print('Get all points')
 points = parse_data.getPoints()
@@ -32,13 +41,14 @@ allowed_segments = parse_data.getAllowedSegments(allowed_routes)
 
 print('Create list of forbidden segments and sequences')
 forbidden_seqs = create_forbid_sequences.getForbiddenSequences(routes_by_entry_node, segments, allowed_routes, allowed_segments)
-forbidden_entry_segs = create_forbid_sequences.getForbiddenEntrySegments(allowed_segments, segments)
+forbidden_entry_segs =
+create_forbid_sequences.getForbiddenEntrySegments(allowed_segments, segments, chinese_areas, entry_nodes)
 
 print('Generate new srad file')
 generate_srad.generateSRAD(overflyRules, forbidden_entry_segs, forbidden_seqs, points)
 
 print('Confirm solution')
-cs = ConfirmSolution(forbidden_seqs, [], segments, points, entry_nodes, exit_nodes, allowed_nodes)
+cs = ConfirmSolution(forbidden_seqs, [], segments, points, entry_nodes, exit_nodes, allowed_nodes, chinese_areas)
 possible_routes = cs.getPossibleRoutes()
 
 print('\nNr of routes per entry node\n')
@@ -65,6 +75,6 @@ print('The number of routes found is ', len(possible_routes))
 print('The number of identical routes ', count_identical) 
 
 print('Saving figures')
-plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes)
+plot_routes.plotRoutes(allowed_routes, possible_routes, points, segments, entry_nodes, chinese_areas)
 
 
