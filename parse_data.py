@@ -1,4 +1,5 @@
 from graph import Graph
+from decimal import Decimal
 
 point_path = "../data/NAVDATA_POINTS"
 segment_path = "../data/NAVDATA_SEGMENTS"
@@ -17,6 +18,14 @@ pointType = {'V': 'VOR',
              'A': 'APT',
              'D': 'DME',
              'R': 'RWY'}
+
+def convertCoord(coord):
+    direction, value = coord[0], coord[1:]
+    retval = Decimal(value[:-3]) + Decimal(value[-3:])/Decimal('600')
+    if direction in ('S', 'W'):
+        retval = -retval
+    retval = '%.3f'%(retval) # convert to 3-decimals and string
+    return retval
 
 def readFileLines(path):
     with open(path,'r') as f:
@@ -122,19 +131,18 @@ def getPoints():
     pointlines = readFileLines(point_path)
     points = {}
     for line in pointlines:
-        if line[34]=='N' and line[41]=='E':
-            if line[1:10] != "  ":
-                points[pointType[line[0]]+" "+line[2:7].strip()+" "+line[8:10]] = {
-                    'area': line[19:23], 
-                    'lat': str(float(line[35:40])/1000), 
-                    'lon': str(float(line[42:48])/1000)
-                }
-            else:
-                points[pointType[line[0]]+" "+line[2:7].strip()+" xx"] = {
-                    'area': line[19:23], 
-                    'lat': str(format(float(line[35:37])+float(line[37:40])/600,'.3f')), 
-                    'lon': str(format(float(line[42:45])+float(line[45:48])/600,'.3f'))
-                }
+        if line[8:10] != "  ":
+            points[pointType[line[0]]+" "+line[2:7].strip()+" "+line[8:10]] = {
+                'area': line[19:23], 
+                'lat': convertCoord(line[34:40]), 
+                'lon': convertCoord(line[41:48])
+            }
+        else:
+            points[pointType[line[0]]+" "+line[2:7].strip()+" xx"] = {
+                'area': line[19:23], 
+                'lat': convertCoord(line[34:40]), 
+                'lon': convertCoord(line[41:48])
+            }
 
     return points
 
