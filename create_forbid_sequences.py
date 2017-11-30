@@ -95,7 +95,7 @@ def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes, allowe
         last_seg = []
         for seg in possible_segs:
             tmp_seg = {'airway': seg['airway'], 'from': seg['to'], 'to': seg['from']}
-            if (seg not in used_segs) and (seg not in forbidden_tmp):# and (tmp_seg != last_seg):
+            if (seg not in used_segs) and (seg not in forbidden_tmp) and (tmp_seg != last_seg):
                 forbidden_tmp.append(seg)
             last_seg = seg
         #Find which sequences to forbid (prevent routes from splitting and merge and then splitting again)
