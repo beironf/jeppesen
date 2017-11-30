@@ -61,8 +61,6 @@ def find_forbidden_seq(seg, used_segs, allowed_segments, routes_by_entry_node):
                                 forbidden_tmp.append(seq)
                                 break
 
-                    #print("\nEntry_node: "+used_segs[0]['from']+"\n Couldn't forbid "+str(sg)+" for seq:\n\n"+str(route_used_segs+[sg]))
-
             used_segs_tmp = list(used_segs)
             used_segs_tmp.append(sg)
             forbidden_tmp_more = find_forbidden_seq(sg, used_segs_tmp, allowed_segments, routes_by_entry_node)
@@ -96,9 +94,10 @@ def getForbiddenSequences(routes_by_entry_node, segments, allowed_routes, allowe
         last_seg = []
         for seg in possible_segs:
             tmp_seg = {'airway': seg['airway'], 'from': seg['to'], 'to': seg['from']}
-            if (seg not in used_segs) and (seg not in forbidden_tmp):# and (tmp_seg != last_seg):
+            if (seg not in used_segs) and (seg not in forbidden_tmp) and (tmp_seg != last_seg):
                 forbidden_tmp.append(seg)
             last_seg = seg
+
         #Find which sequences to forbid (prevent routes from splitting and merge and then splitting again)
         for entry_seg in getAllowedSegmentsFrom(entry_node, getAllowedSegmentsFromEntryNode(entry_node, routes_by_entry_node)):
             forbidden_tmp.extend(find_forbidden_seq(entry_seg, [entry_seg], allowed_segments, routes_by_entry_node))
