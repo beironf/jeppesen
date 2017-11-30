@@ -29,14 +29,25 @@ class ConfirmSolution(object):
                         break
             return count == len(a)
 
+    def getNodes(self, seq):
+        nodes = [seq[0]['from']]
+        [nodes.append(seg['to']) for seg in seq]
+        return nodes
+
     def isForbidden(self, seg, used_segs):
-        if used_segs[0]['from'] in self.entry_nodes:
-            seq = used_segs+[seg]
-            for forbid in self.forbidden_seqs[seq[0]['from']]:
-                if self.isSubsetInOrder(forbid, seq):
-                    return True
+        if used_segs:
+            if seg['to'] in self.getNodes(used_segs):
+                return True
+            elif used_segs[0]['from'] in self.entry_nodes:
+                seq = used_segs+[seg]
+                for forbid in self.forbidden_seqs[seq[0]['from']]:
+                    if self.isSubsetInOrder(forbid, seq):
+                        return True
         else:
-            return False
+            if seg in self.forbidden_seqs[seg['from']]:
+                return True
+            else:
+                return False
 
     def getSegments(self, fr):
         segs = [seg for seg in self.segments if seg['from']==fr]
@@ -44,13 +55,12 @@ class ConfirmSolution(object):
 
     def find_path(self, seg, used_segs):
         node = seg['to']
-        if (node in self.exit_nodes or (self.points[node]['area'][0:2] not in self.chinese_areas and node not in self.allowed_nodes)):
-            self.possible_routes.append(used_segs)
+        used_segs_tmp = used_segs+[seg]
+        if node in self.exit_nodes or (self.points[node]['area'][0:2] not in self.chinese_areas and node not in self.allowed_nodes):
+            self.possible_routes.append(used_segs_tmp)
         else:
             for sg in self.getSegments(node):
-                if not(self.isForbidden(sg, used_segs)):
-                    used_segs_tmp = list(used_segs) # needs list() (otherwise used_segs_tmp will not be a new variable)
-                    used_segs_tmp.append(sg)
+                if not self.isForbidden(sg, used_segs_tmp):
                     self.find_path(sg, used_segs_tmp)
 
     def getPossibleRoutes(self):
@@ -58,8 +68,8 @@ class ConfirmSolution(object):
         [start_segs.extend(self.getSegments(node)) for node in self.entry_nodes]
                 
         for start_seg in start_segs:
-            used_segs = [start_seg]
-            if not(self.isForbidden(start_seg, used_segs)):
+            used_segs = []
+            if not self.isForbidden(start_seg, used_segs):
                 self.find_path(start_seg, used_segs)
 
         return self.possible_routes
