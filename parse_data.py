@@ -1,8 +1,8 @@
 from graph import Graph
 from decimal import Decimal
 
-point_path = "../data/NAVDATA_POINTS_OLD"
-segment_path = "../data/NAVDATA_SEGMENTS_OLD"
+point_path = "../data/NAVDATA_POINTS"
+segment_path = "../data/NAVDATA_SEGMENTS"
 srad_path = "../data/_CHINA_MANDATE_OVERFLIGHT.srad"
 
 mapping = {"1": "WPT",
