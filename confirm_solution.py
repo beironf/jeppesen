@@ -30,6 +30,8 @@ class ConfirmSolution(object):
             return count == len(a)
 
     def getNodes(self, seq):
+        if type(seq) is dict:
+            seq = [seq]
         nodes = [seq[0]['from']]
         [nodes.append(seg['to']) for seg in seq]
         return nodes
@@ -38,11 +40,11 @@ class ConfirmSolution(object):
         if used_segs:
             if seg['to'] in self.getNodes(used_segs):
                 return True
-            elif used_segs[0]['from'] in self.entry_nodes:
-                seq = used_segs+[seg]
-                for forbid in self.forbidden_seqs[seq[0]['from']]:
-                    if self.isSubsetInOrder(forbid, seq):
-                        return True
+            seq = used_segs+[seg]
+            for forbid in self.forbidden_seqs[seq[0]['from']]:
+                if self.isSubsetInOrder(forbid, seq):
+                    return True
+            return False
         else:
             if seg in self.forbidden_seqs[seg['from']]:
                 return True
