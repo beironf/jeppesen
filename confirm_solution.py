@@ -39,6 +39,13 @@ class ConfirmSolution(object):
     def isForbidden(self, seg, used_segs):
         if used_segs:
             if seg['to'] in self.getNodes(used_segs):
+                ############################################################ print 'Back is forbidden' if we forbid the segment back
+                if seg['to']==used_segs[-1]['from']:
+                    seq = used_segs+[seg]
+                    for forbid in self.forbidden_seqs[seq[0]['from']]:
+                        if self.isSubsetInOrder(forbid, seq):
+                            print('Back is forbidden')
+                ############################################################
                 return True
             seq = used_segs+[seg]
             for forbid in self.forbidden_seqs[seq[0]['from']]:
