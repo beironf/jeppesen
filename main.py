@@ -1,6 +1,6 @@
 import parse_data
 import create_forbid_sequences
-import generate_srad
+import generate_srad_NEW as generate_srad
 from confirm_solution import ConfirmSolution
 import plot_routes
 import pprint
@@ -44,8 +44,7 @@ forbidden_seqs = create_forbid_sequences.getForbiddenSequences(routes_by_entry_n
 forbidden_entry_segs = create_forbid_sequences.getForbiddenEntrySegments(allowed_segments, segments, chinese_areas, entry_nodes, allowed_nodes)
 
 print('Generate new srad file')
-generate_srad.generateSRAD_f(overflyRules, forbidden_entry_segs, forbidden_seqs, points)
-generate_srad.generateSRAD_m(overflyRules, forbidden_entry_segs, forbidden_seqs, points)
+generate_srad.generateSRAD(overflyRules, forbidden_entry_segs, forbidden_seqs, points)
 
 print('Confirm solution')
 cs = ConfirmSolution(forbidden_seqs, [], segments, points, entry_nodes, exit_nodes, allowed_nodes, chinese_areas)
